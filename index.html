@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DiyaMitra - AI Mental Wellness Companion</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --deep-blue: #1a237e;
+            --dark-purple: #311b92;
+            --gold: #ffd700;
+            --warm-orange: #ff9800;
+            --festival-red: #e53935;
+            --light-yellow: #fff9c4;
+            --white: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--dark-purple), var(--deep-blue));
+            color: var(--white);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Floating decorative elements */
+        .floating-diya {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0.3;
+            animation: float 6s ease-in-out infinite;
+            z-index: -1;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+        
+        /* Header with decorative elements */
+        header {
+            padding: 1.5rem;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 2px solid var(--gold);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .logo {
+            font-size: 3rem;
+            color: var(--gold);
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 10px rgba(255, 215, 0, 0.7); }
+            to { text-shadow: 0 0 20px rgba(255, 215, 0, 0.9), 0 0 30px rgba(255, 215, 0, 0.5); }
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--light-yellow);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-weight: 600;
+        }
+        
+        .tagline {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: var(--gold);
+            font-style: italic;
+            margin-top: 0.5rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            transform: rotate(-2deg);
+            display: inline-block;
+            padding: 0.2rem 1rem;
+            background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            border-radius: 10px;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: center;
+            background: rgba(49, 27, 146, 0.8);
+            padding: 0.8rem;
+            position: relative;
+        }
+        
+        nav::before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--warm-orange), transparent);
+        }
+        
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: var(--white);
+            padding: 0.7rem 1.5rem;
+            margin: 0 0.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .nav-btn:hover::before {
+            left: 100%;
+        }
+        
+        .nav-btn.active {
+            background: var(--warm-orange);
+            color: var(--dark-purple);
+            box-shadow: 0 0 15px rgba(255, 152, 0, 0.5);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .section {
+            display: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--festival-red), var(--warm-orange), var(--gold));
+        }
+        
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h2 {
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--warm-orange);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Home Section Styles */
+        .village-scene {
+            background: linear-gradient(180deg, #1a237e 0%, #311b92 50%, #1a237e 100%);
+            height: 300px;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .village-scene::before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: linear-gradient(transparent, rgba(49, 27, 146, 0.7));
+            z-index: 1;
+        }
+        
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #fff, transparent),
+                radial-gradient(2px 2px at 40px 70px, #fff, transparent),
+                radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+                radial-gradient(1px 1px at 130px 80px, #fff, transparent),
+                radial-gradient(2px 2px at 160px 30px, #fff, transparent),
+                radial-gradient(1px 1px at 210px 60px, #fff, transparent),
+                radial-gradient(2px 2px at 250px 90px, #fff, transparent),
+                radial-gradient(1px 1px at 290px 40px, #fff, transparent),
+                radial-gradient(2px 2px at 320px 70px, #fff, transparent),
+                radial-gradient(1px 1px at 360px 20px, #fff, transparent);
+            animation: twinkle 4s infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        
+        .moon {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #fff9c4 0%, #ffd700 70%);
+            border-radius: 50%;
+            box-shadow: 0 0 20px #ffd700;
+        }
+        
+        .diya {
+            position: absolute;
+            width: 40px;
+            height: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            z-index: 2;
+        }
+        
+        .diya:hover {
+            transform: scale(1.2);
+        }
+        
+        .diya-body {
+            width: 40px;
+            height: 40px;
+            background: var(--warm-orange);
+            border-radius: 50% 50% 40% 40%;
+            position: relative;
+            box-shadow: 0 0 10px rgba(255, 152, 0, 0.7);
+        }
+        
+        .diya-top {
+            width: 30px;
+            height: 10px;
+            background: var(--festival-red);
+            border-radius: 50%;
+            position: absolute;
+            top: -5px;
+            left: 5px;
+        }
+        
+        .flame {
+            width: 15px;
+            height: 25px;
+            background: radial-gradient(var(--gold), var(--warm-orange));
+            border-radius: 50% 50% 20% 20%;
+            position: absolute;
+            top: -25px;
+            left: 12px;
+            animation: flicker 2s infinite alternate;
+            box-shadow: 0 0 10px var(--gold);
+        }
+        
+        @keyframes flicker {
+            0%, 100% { transform: scaleY(1) skew(0deg); opacity: 0.9; }
+            50% { transform: scaleY(1.1) skew(2deg); opacity: 1; }
+        }
+        
+        .diya.unlit .flame {
+            display: none;
+        }
+        
+        .diya.unlit .diya-body {
+            background: #555;
+            box-shadow: none;
+        }
+        
+        .progress-text {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.8rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .feature-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--festival-red), var(--warm-orange), var(--gold));
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card i {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+        
+        .card h3 {
+            margin-bottom: 1rem;
+            color: var(--light-yellow);
+        }
+        
+        /* Chat Section */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 400px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .message {
+            margin-bottom: 1rem;
+            padding: 0.8rem 1rem;
+            border-radius: 18px;
+            max-width: 80%;
+            animation: messageAppear 0.3s ease;
+            position: relative;
+        }
+        
+        @keyframes messageAppear {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .user-message {
+            background: var(--warm-orange);
+            color: var(--dark-purple);
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .bot-message {
+            background: rgba(255, 255, 255, 0.2);
+            border-bottom-left-radius: 5px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .chat-input {
+            display: flex;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.4);
+            border-top: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            border: none;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .chat-input button {
+            background: var(--gold);
+            color: var(--dark-purple);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            margin-left: 0.8rem;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .chat-input button:hover {
+            background: var(--warm-orange);
+            transform: scale(1.05);
+        }
+        
+        /* Meditation Section */
+        .meditation-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .meditation-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .meditation-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--festival-red), var(--warm-orange), var(--gold));
+        }
+        
+        .meditation-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: var(--gold);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .meditation-card i {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+        
+        .player-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: 1.5rem;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .timer {
+            font-size: 3rem;
+            margin: 1.5rem 0;
+            color: var(--light-yellow);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        
+        .player-controls button {
+            background: var(--gold);
+            color: var(--dark-purple);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            margin: 0 0.5rem;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+        
+        .player-controls button:hover {
+            background: var(--warm-orange);
+            transform: scale(1.1);
+        }
+        
+        /* Creative Corner */
+        .creative-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .creative-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .creative-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--festival-red), var(--warm-orange), var(--gold));
+        }
+        
+        .creative-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .creative-card i {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+        
+        .gratitude-input {
+            margin-top: 2rem;
+            text-align: center;
+        }
+        
+        .gratitude-input textarea {
+            width: 100%;
+            max-width: 600px;
+            height: 150px;
+            padding: 1rem;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid var(--gold);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .gratitude-input textarea:focus {
+            outline: none;
+            border-color: var(--warm-orange);
+            box-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
+        }
+        
+        .generate-btn {
+            background: var(--gold);
+            color: var(--dark-purple);
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+        
+        .generate-btn:hover {
+            background: var(--warm-orange);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 152, 0, 0.7);
+        }
+        
+        .art-display {
+            margin-top: 2rem;
+            text-align: center;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        #rangoliCanvas {
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            max-width: 100%;
+        }
+        
+        .pattern-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .pattern-btn {
+            background: var(--gold);
+            color: var(--dark-purple);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+        
+        .pattern-btn:hover {
+            background: var(--warm-orange);
+            transform: scale(1.05);
+        }
+
+        .color-palette {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .color-option:hover {
+            transform: scale(1.2);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-top: 1px solid var(--gold);
+            position: relative;
+        }
+        
+        footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+        
+        .footer-text {
+            color: var(--light-yellow);
+            margin-bottom: 1rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .tagline {
+                font-size: 1.4rem;
+            }
+            
+            .nav-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .section {
+                padding: 1.5rem;
+            }
+            
+            .village-scene {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating decorative elements -->
+    <div class="floating-diya" style="top: 10%; left: 5%;">🪔</div>
+    <div class="floating-diya" style="top: 20%; right: 10%;">✨</div>
+    <div class="floating-diya" style="top: 60%; left: 8%;">🌟</div>
+    <div class="floating-diya" style="top: 40%; right: 5%;">🪔</div>
+    <div class="floating-diya" style="top: 80%; left: 15%;">✨</div>
+    
+    <header>
+        <div class="logo-container">
+            <div class="logo">🪔</div>
+            <h1>DiyaMitra</h1>
+        </div>
+        <div class="tagline">Illuminating Mental Wellness with AI, this Diwali</div>
+    </header>
+    
+    <nav>
+        <button class="nav-btn active" data-target="home">Home</button>
+        <button class="nav-btn" data-target="chat">Chat Companion</button>
+        <button class="nav-btn" data-target="meditation">Shanti Meditation</button>
+        <button class="nav-btn" data-target="creative">Creative Corner</button>
+    </nav>
+    
+    <div class="container">
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <h2>Welcome to Your Inner Light</h2>
+            <p>This Diwali, light up the diyas of mental wellness within you. DiyaMitra is your companion for mindfulness, positivity, and creative expression.</p>
+            
+            <div class="village-scene" id="villageScene">
+                <div class="stars"></div>
+                <div class="moon"></div>
+                <!-- Diyas will be added dynamically with JavaScript -->
+            </div>
+            
+            <div class="progress-text">
+                Light up diyas by using the app features! <span id="litDiyasCount">0</span>/10 lit
+            </div>
+            
+            <div class="feature-cards">
+                <div class="card">
+                    <i class="fas fa-comments"></i>
+                    <h3>Emotional Support</h3>
+                    <p>Chat with our AI companion who understands your feelings and provides empathetic responses.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-spa"></i>
+                    <h3>Guided Meditation</h3>
+                    <p>Find your inner peace with Diwali-themed soundscapes and guided mindfulness sessions.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-palette"></i>
+                    <h3>Creative Expression</h3>
+                    <p>Create beautiful digital rangoli and diya art inspired by your thoughts of gratitude.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Chat Companion Section -->
+        <section id="chat" class="section">
+            <h2>Your Empathetic Chat Companion</h2>
+            <p>Share your thoughts and feelings. Our AI companion is here to listen and support you.</p>
+            
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message bot-message">
+                        Hello! I'm your DiyaMitra. I'm here to listen and support you. How are you feeling today?
+                    </div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="userInput" placeholder="Type your message here...">
+                    <button id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Meditation Section -->
+        <section id="meditation" class="section">
+            <h2>Shanti Meditation & Soundscapes</h2>
+            <p>Select a meditation session to find your inner peace with Diwali-themed soundscapes.</p>
+            
+            <div class="meditation-options">
+                <div class="meditation-card" data-duration="300">
+                    <i class="fas fa-wind"></i>
+                    <h3>Breathing Exercise</h3>
+                    <p>5 minutes</p>
+                </div>
+                <div class="meditation-card" data-duration="600">
+                    <i class="fas fa-mountain"></i>
+                    <h3>Mindful Awareness</h3>
+                    <p>10 minutes</p>
+                </div>
+                <div class="meditation-card" data-duration="900">
+                    <i class="fas fa-water"></i>
+                    <h3>Body Relaxation</h3>
+                    <p>15 minutes</p>
+                </div>
+            </div>
+            
+            <div class="player-container" id="playerContainer" style="display: none;">
+                <h3 id="sessionTitle">Breathing Exercise</h3>
+                <div class="timer" id="timer">05:00</div>
+                <div class="player-controls">
+                    <button id="playPauseBtn"><i class="fas fa-play"></i></button>
+                    <button id="resetBtn"><i class="fas fa-redo"></i></button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Creative Corner Section -->
+        <section id="creative" class="section">
+            <h2>Creative Corner</h2>
+            <p>Express your gratitude and hopes through beautiful AI-generated art.</p>
+            
+            <div class="pattern-controls">
+                <button class="pattern-btn" data-pattern="lotus">Lotus</button>
+                <button class="pattern-btn" data-pattern="mandala">Mandala</button>
+                <button class="pattern-btn" data-pattern="geometric">Geometric</button>
+                <button class="pattern-btn" data-pattern="floral">Floral</button>
+                <button class="pattern-btn" data-pattern="diwali">Diwali</button>
+            </div>
+
+            <div class="color-palette">
+                <div class="color-option" style="background: #ff6b6b;" data-color="#ff6b6b"></div>
+                <div class="color-option" style="background: #4ecdc4;" data-color="#4ecdc4"></div>
+                <div class="color-option" style="background: #ffd700;" data-color="#ffd700"></div>
+                <div class="color-option" style="background: #a29bfe;" data-color="#a29bfe"></div>
+                <div class="color-option" style="background: #fd79a8;" data-color="#fd79a8"></div>
+                <div class="color-option" style="background: #00b894;" data-color="#00b894"></div>
+            </div>
+            
+            <div class="gratitude-input">
+                <textarea id="promptInput" placeholder="Describe your emotions or the pattern you want... Example: feeling peaceful and grateful"></textarea>
+                <br>
+                <button class="generate-btn" id="generateArt">Generate AI Rangoli</button>
+            </div>
+            
+            <div class="art-display" id="artDisplay">
+                <canvas id="rangoliCanvas" width="400" height="400"></canvas>
+                <p id="artMessage">Your AI-generated rangoli will appear here</p>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <p class="footer-text">DiyaMitra - Illuminating Mental Wellness this Diwali</p>
+        <p>Project Prakash - The Diwali AI Hackathon Submission</p>
+    </footer>
+
+    <!-- JavaScript remains the same as previous version -->
+    <script>
+        // IMPROVED AI CHAT WITH CONTEXT MEMORY
+        const chatMessages = document.getElementById('chatMessages');
+        const userInput = document.getElementById('userInput');
+        const sendMessage = document.getElementById('sendMessage');
+
+        let conversationContext = {
+            mood: 'neutral',
+            topics: [],
+            lastResponse: ''
+        };
+
+        // Enhanced AI response system
+        function getAIResponse(userMessage) {
+            const message = userMessage.toLowerCase();
+            
+            // Update conversation context
+            updateConversationContext(message);
+            
+            // Get response based on context
+            return generateContextualResponse(message);
+        }
+
+        function updateConversationContext(message) {
+            // Detect mood
+            const positiveWords = ['happy', 'good', 'great', 'excited', 'joy', 'wonderful', 'amazing', 'better', 'calm', 'peaceful', 'grateful'];
+            const negativeWords = ['sad', 'angry', 'anxious', 'stressed', 'overwhelmed', 'tired', 'worried', 'frustrated', 'upset', 'depressed'];
+            
+            let positiveCount = positiveWords.filter(word => message.includes(word)).length;
+            let negativeCount = negativeWords.filter(word => message.includes(word)).length;
+            
+            if (positiveCount > negativeCount) conversationContext.mood = 'positive';
+            else if (negativeCount > positiveCount) conversationContext.mood = 'negative';
+            
+            // Detect topics
+            const topics = {
+                'family': ['family', 'mother', 'father', 'parent', 'sibling'],
+                'friends': ['friend', 'friends', 'lonely', 'alone'],
+                'school': ['exam', 'test', 'study', 'school', 'college'],
+                'future': ['future', 'career', 'job', 'dream'],
+                'health': ['health', 'sick', 'tired', 'sleep'],
+                'celebration': ['diwali', 'festival', 'celebrate', 'happy']
+            };
+            
+            conversationContext.topics = [];
+            for (const [topic, keywords] of Object.entries(topics)) {
+                if (keywords.some(keyword => message.includes(keyword))) {
+                    conversationContext.topics.push(topic);
+                }
+            }
+        }
+
+        function generateContextualResponse(message) {
+            const responses = {
+                // Greeting responses
+                greeting: [
+                    "Hello! I'm DiyaMitra. How can I support you today?",
+                    "Welcome! I'm here to listen. What's on your mind?",
+                    "Hi there! I'm your mental wellness companion. How are you feeling?"
+                ],
+                
+                // Mood-based responses
+                positive: [
+                    "It's wonderful to hear you're feeling positive! Your inner light is shining bright today.",
+                    "Your positivity is contagious! This reminds me of the joyful lights of Diwali.",
+                    "I'm glad you're in good spirits! Would you like to channel this energy into creating something beautiful?"
+                ],
+                
+                negative: [
+                    "I hear you're going through a tough time. Remember, even the smallest diya can light up a dark room.",
+                    "Thank you for sharing this with me. Like Diwali teaches us, every dark night gives way to dawn.",
+                    "I understand this feels heavy. Let's take a moment to breathe together - imagine a warm, golden light filling your heart."
+                ],
+                
+                // Topic-specific responses
+                family: [
+                    "Family relationships can be complex, like intricate rangoli patterns. What would you like to share?",
+                    "Our families are like the foundation of our personal mandala. How are things with your family?",
+                    "Family connections are precious, like the shared light of Diwali. Tell me more."
+                ],
+                
+                friends: [
+                    "Friendships are like the colorful patterns in rangoli - each one unique and beautiful.",
+                    "Having good friends is like having many diyas to light up your life. How are your friendships?",
+                    "Connections with others can bring so much light. Would you like to talk about your friends?"
+                ],
+                
+                school: [
+                    "Studies and exams can feel overwhelming. Remember to take breaks and breathe.",
+                    "Each study session is like lighting one more diya on your path to knowledge.",
+                    "Education is a journey, much like creating a beautiful rangoli - one step at a time."
+                ],
+                
+                future: [
+                    "The future can seem uncertain, but each decision you make illuminates your path forward.",
+                    "Your dreams are like the guiding stars during Diwali night. What lights up your heart?",
+                    "The future holds endless possibilities, just like the countless patterns we can create in rangoli."
+                ],
+                
+                // Fallback responses
+                neutral: [
+                    "I'm listening with an open heart. What would you like to explore today?",
+                    "Your thoughts are like adding new colors to our conversation. What's on your mind?",
+                    "I'm here to support you. What would you like to talk about?"
+                ]
+            };
+
+            // Select response category
+            let category = 'neutral';
+            
+            if (message.includes('hello') || message.includes('hi')) {
+                category = 'greeting';
+            } else if (conversationContext.mood === 'positive') {
+                category = 'positive';
+            } else if (conversationContext.mood === 'negative') {
+                category = 'negative';
+            } else if (conversationContext.topics.length > 0) {
+                category = conversationContext.topics[0];
+            }
+            
+            const categoryResponses = responses[category] || responses.neutral;
+            return categoryResponses[Math.floor(Math.random() * categoryResponses.length)];
+        }
+
+        function addMessage(text, isUser) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+            messageDiv.textContent = text;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Light up a diya for user messages
+            if (isUser && litDiyas < 10) {
+                const unlitDiyas = document.querySelectorAll('.diya.unlit');
+                if (unlitDiyas.length > 0) {
+                    const randomDiya = unlitDiyas[Math.floor(Math.random() * unlitDiyas.length)];
+                    randomDiya.classList.remove('unlit');
+                    litDiyas++;
+                    litDiyasCount.textContent = litDiyas;
+                }
+            }
+        }
+
+        function handleUserMessage() {
+            const message = userInput.value.trim();
+            if (message) {
+                addMessage(message, true);
+                userInput.value = '';
+
+                // Show typing indicator
+                const typingIndicator = document.createElement('div');
+                typingIndicator.className = 'message bot-message';
+                typingIndicator.id = 'typingIndicator';
+                typingIndicator.innerHTML = '<i class="fas fa-ellipsis-h"></i> AI is thinking...';
+                chatMessages.appendChild(typingIndicator);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                setTimeout(() => {
+                    document.getElementById('typingIndicator').remove();
+                    const aiResponse = getAIResponse(message);
+                    addMessage(aiResponse, false);
+                }, 1000 + Math.random() * 1000); // Random delay for realism
+            }
+        }
+
+        // IMPROVED AI ART GENERATION
+        const canvas = document.getElementById('rangoliCanvas');
+        const ctx = canvas.getContext('2d');
+        const artMessage = document.getElementById('artMessage');
+        
+        let currentPattern = 'mandala';
+        let currentColors = ['#ff6b6b', '#4ecdc4', '#ffd700', '#a29bfe'];
+
+        // Pattern buttons
+        document.querySelectorAll('.pattern-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                currentPattern = btn.dataset.pattern;
+                artMessage.textContent = `Selected: ${currentPattern} pattern`;
+                generateRangoli();
+                
+                // Light up a diya for using features
+                if (litDiyas < 10) {
+                    const unlitDiyas = document.querySelectorAll('.diya.unlit');
+                    if (unlitDiyas.length > 0) {
+                        const randomDiya = unlitDiyas[Math.floor(Math.random() * unlitDiyas.length)];
+                        randomDiya.classList.remove('unlit');
+                        litDiyas++;
+                        litDiyasCount.textContent = litDiyas;
+                    }
+                }
+            });
+        });
+
+        // Color selection
+        document.querySelectorAll('.color-option').forEach(color => {
+            color.addEventListener('click', () => {
+                const newColor = color.dataset.color;
+                if (!currentColors.includes(newColor)) {
+                    currentColors.push(newColor);
+                    if (currentColors.length > 4) currentColors.shift();
+                }
+                updateColorDisplay();
+                generateRangoli();
+            });
+        });
+
+        function updateColorDisplay() {
+            document.querySelectorAll('.color-option').forEach((color, index) => {
+                if (currentColors[index]) {
+                    color.style.border = '2px solid white';
+                } else {
+                    color.style.border = '2px solid transparent';
+                }
+            });
+        }
+
+        // AI analyzes prompt and generates appropriate pattern
+        document.getElementById('generateArt').addEventListener('click', function() {
+            const prompt = document.getElementById('promptInput').value.trim().toLowerCase();
+            
+            // AI analyzes emotions and selects pattern
+            if (prompt.includes('peace') || prompt.includes('calm') || prompt.includes('relax')) {
+                currentPattern = 'lotus';
+                currentColors = ['#4ecdc4', '#a29bfe', '#00b894', '#74b9ff'];
+            } else if (prompt.includes('happy') || prompt.includes('joy') || prompt.includes('celebrate')) {
+                currentPattern = 'diwali';
+                currentColors = ['#ff6b6b', '#ffd700', '#fd79a8', '#fdcb6e'];
+            } else if (prompt.includes('sad') || prompt.includes('lonely') || prompt.includes('hurt')) {
+                currentPattern = 'mandala';
+                currentColors = ['#a29bfe', '#74b9ff', '#6c5ce7', '#0984e3'];
+            } else if (prompt.includes('energy') || prompt.includes('power')) {
+                currentPattern = 'geometric';
+                currentColors = ['#e17055', '#ff7675', '#fdcb6e', '#e84393'];
+            } else if (prompt.includes('love') || prompt.includes('family') || prompt.includes('friend')) {
+                currentPattern = 'floral';
+                currentColors = ['#fd79a8', '#ff6b6b', '#fdcb6e', '#e84393'];
+            }
+
+            generateRangoli();
+            artMessage.textContent = `AI-generated ${currentPattern} pattern for: "${prompt || 'your emotions'}"`;
+            
+            // Light up a diya for creating art
+            if (litDiyas < 10) {
+                const unlitDiyas = document.querySelectorAll('.diya.unlit');
+                if (unlitDiyas.length > 0) {
+                    const randomDiya = unlitDiyas[Math.floor(Math.random() * unlitDiyas.length)];
+                    randomDiya.classList.remove('unlit');
+                    litDiyas++;
+                    litDiyasCount.textContent = litDiyas;
+                }
+            }
+        });
+
+        function generateRangoli() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Background
+            ctx.fillStyle = '#1a237e';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const maxRadius = Math.min(centerX, centerY) - 20;
+
+            // Generate different pattern each time
+            switch(currentPattern) {
+                case 'lotus':
+                    drawLotusPattern(centerX, centerY, maxRadius);
+                    break;
+                case 'mandala':
+                    drawMandalaPattern(centerX, centerY, maxRadius);
+                    break;
+                case 'geometric':
+                    drawGeometricPattern(centerX, centerY, maxRadius);
+                    break;
+                case 'floral':
+                    drawFloralPattern(centerX, centerY, maxRadius);
+                    break;
+                case 'diwali':
+                    drawDiwaliPattern(centerX, centerY, maxRadius);
+                    break;
+            }
+        }
+
+        function drawLotusPattern(cx, cy, maxR) {
+            // Unique lotus pattern with variations
+            const petalCount = 6 + Math.floor(Math.random() * 4);
+            for (let r = maxR; r > 20; r -= 25) {
+                for (let i = 0; i < petalCount; i++) {
+                    const angle = (i * 2 * Math.PI) / petalCount;
+                    ctx.fillStyle = currentColors[i % currentColors.length];
+                    ctx.beginPath();
+                    for (let j = 0; j < 6; j++) {
+                        const petalAngle = angle + (j * Math.PI / 12);
+                        const x = cx + r * Math.cos(petalAngle);
+                        const y = cy + r * Math.sin(petalAngle);
+                        if (j === 0) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    }
+                    ctx.closePath();
+                    ctx.fill();
+                }
+            }
+        }
+
+        function drawMandalaPattern(cx, cy, maxR) {
+            // Unique mandala each time
+            const segmentCount = 8 + Math.floor(Math.random() * 8);
+            for (let r = maxR; r > 10; r -= 20) {
+                for (let i = 0; i < segmentCount; i++) {
+                    const angle = (i * 2 * Math.PI) / segmentCount;
+                    ctx.strokeStyle = currentColors[i % currentColors.length];
+                    ctx.lineWidth = 1 + Math.random() * 3;
+                    
+                    // Random pattern elements
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, r, angle, angle + Math.PI/(segmentCount/2));
+                    ctx.stroke();
+                    
+                    // Connecting lines
+                    if (Math.random() > 0.3) {
+                        ctx.beginPath();
+                        ctx.moveTo(cx + (r-15) * Math.cos(angle), cy + (r-15) * Math.sin(angle));
+                        ctx.lineTo(cx + (r-35) * Math.cos(angle + Math.PI/segmentCount), cy + (r-35) * Math.sin(angle + Math.PI/segmentCount));
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function drawGeometricPattern(cx, cy, maxR) {
+            // Dynamic geometric patterns
+            const shapeCount = 5 + Math.floor(Math.random() * 4);
+            for (let i = 0; i < shapeCount; i++) {
+                const angle = (i * 2 * Math.PI) / shapeCount;
+                const size = maxR * (0.6 + Math.random() * 0.3);
+                const sides = 3 + Math.floor(Math.random() * 4);
+                
+                ctx.fillStyle = currentColors[i % currentColors.length];
+                ctx.beginPath();
+                for (let j = 0; j < sides; j++) {
+                    const shapeAngle = angle + (j * 2 * Math.PI / sides);
+                    const x = cx + size * Math.cos(shapeAngle);
+                    const y = cy + size * Math.sin(shapeAngle);
+                    if (j === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.closePath();
+                ctx.fill();
+            }
+        }
+
+        function drawFloralPattern(cx, cy, maxR) {
+            // Random floral arrangement
+            const flowerCount = 4 + Math.floor(Math.random() * 4);
+            for (let i = 0; i < flowerCount; i++) {
+                const angle = (i * 2 * Math.PI) / flowerCount;
+                const distance = maxR * (0.3 + Math.random() * 0.4);
+                const x = cx + distance * Math.cos(angle);
+                const y = cy + distance * Math.sin(angle);
+                
+                // Draw flower
+                const petalCount = 5 + Math.floor(Math.random() * 3);
+                for (let p = 0; p < petalCount; p++) {
+                    const petalAngle = (p * 2 * Math.PI) / petalCount;
+                    ctx.fillStyle = currentColors[p % currentColors.length];
+                    ctx.beginPath();
+                    ctx.ellipse(x, y, 12, 6, petalAngle, 0, 2 * Math.PI);
+                    ctx.fill();
+                }
+                
+                // Flower center
+                ctx.fillStyle = currentColors[(i+1) % currentColors.length];
+                ctx.beginPath();
+                ctx.arc(x, y, 4, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+        }
+
+        function drawDiwaliPattern(cx, cy, maxR) {
+            // Festive Diwali pattern with diyas
+            const diyaCount = 6 + Math.floor(Math.random() * 4);
+            for (let i = 0; i < diyaCount; i++) {
+                const angle = (i * 2 * Math.PI) / diyaCount;
+                const distance = maxR * 0.7;
+                const x = cx + distance * Math.cos(angle);
+                const y = cy + distance * Math.sin(angle);
+                
+                // Draw diya
+                ctx.fillStyle = currentColors[i % currentColors.length];
+                ctx.beginPath();
+                ctx.ellipse(x, y, 10, 6, angle, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Draw flame with random flicker
+                const flameHeight = 15 + Math.random() * 10;
+                ctx.fillStyle = '#ffd700';
+                ctx.beginPath();
+                ctx.moveTo(x, y - 8);
+                ctx.lineTo(x - 4, y - 8 - flameHeight);
+                ctx.lineTo(x + 4, y - 8 - flameHeight);
+                ctx.closePath();
+                ctx.fill();
+            }
+            
+            // Central rangoli
+            ctx.fillStyle = currentColors[2 % currentColors.length];
+            ctx.beginPath();
+            ctx.arc(cx, cy, 25, 0, 2 * Math.PI);
+            ctx.fill();
+        }
+
+        // Navigation
+        document.querySelectorAll('.nav-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+                button.classList.add('active');
+                document.getElementById(button.getAttribute('data-target')).classList.add('active');
+            });
+        });
+
+        // Village Scene with Diyas
+        const villageScene = document.getElementById('villageScene');
+        const litDiyasCount = document.getElementById('litDiyasCount');
+        let litDiyas = 0;
+        
+        // Create diyas in random positions
+        for (let i = 0; i < 10; i++) {
+            const diya = document.createElement('div');
+            diya.className = 'diya unlit';
+            diya.style.left = `${10 + Math.random() * 80}%`;
+            diya.style.top = `${30 + Math.random() * 60}%`;
+            
+            diya.innerHTML = `
+                <div class="flame"></div>
+                <div class="diya-top"></div>
+                <div class="diya-body"></div>
+            `;
+            
+            diya.addEventListener('click', () => {
+                if (diya.classList.contains('unlit')) {
+                    diya.classList.remove('unlit');
+                    litDiyas++;
+                    litDiyasCount.textContent = litDiyas;
+                    
+                    // Light up a new diya when using app features
+                    if (litDiyas === 10) {
+                        alert('Congratulations! You\'ve lit all the diyas. Your inner light is shining bright!');
+                    }
+                }
+            });
+            
+            villageScene.appendChild(diya);
+        }
+
+        // Meditation Timer
+        let timerInterval;
+        let timeLeft;
+        let isTimerRunning = false;
+        
+        document.querySelectorAll('.meditation-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const duration = parseInt(card.getAttribute('data-duration'));
+                startMeditationSession(duration, card.querySelector('h3').textContent);
+                
+                // Light up a diya for starting a meditation session
+                if (litDiyas < 10) {
+                    const unlitDiyas = document.querySelectorAll('.diya.unlit');
+                    if (unlitDiyas.length > 0) {
+                        const randomDiya = unlitDiyas[Math.floor(Math.random() * unlitDiyas.length)];
+                        randomDiya.classList.remove('unlit');
+                        litDiyas++;
+                        litDiyasCount.textContent = litDiyas;
+                    }
+                }
+            });
+        });
+        
+        function startMeditationSession(duration, title) {
+            // Show player container
+            document.getElementById('playerContainer').style.display = 'block';
+            document.getElementById('sessionTitle').textContent = title;
+            
+            // Reset timer
+            clearInterval(timerInterval);
+            timeLeft = duration;
+            updateTimerDisplay();
+            
+            // Reset buttons
+            document.getElementById('playPauseBtn').innerHTML = '<i class="fas fa-play"></i>';
+            isTimerRunning = false;
+        }
+        
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        document.getElementById('playPauseBtn').addEventListener('click', () => {
+            if (isTimerRunning) {
+                // Pause timer
+                clearInterval(timerInterval);
+                document.getElementById('playPauseBtn').innerHTML = '<i class="fas fa-play"></i>';
+            } else {
+                // Start timer
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    updateTimerDisplay();
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        document.getElementById('playPauseBtn').innerHTML = '<i class="fas fa-play"></i>';
+                        isTimerRunning = false;
+                        alert('Meditation session complete! Well done.');
+                    }
+                }, 1000);
+                document.getElementById('playPauseBtn').innerHTML = '<i class="fas fa-pause"></i>';
+            }
+            isTimerRunning = !isTimerRunning;
+        });
+        
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+            document.getElementById('playPauseBtn').innerHTML = '<i class="fas fa-play"></i>';
+        });
+
+        sendMessage.addEventListener('click', handleUserMessage);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleUserMessage();
+        });
+
+        // Initialize
+        generateRangoli();
+        updateColorDisplay();
+
+    </script>
+</body>
+</html>
